@@ -101,8 +101,8 @@ const HeroWave = React.memo(() => {
         <>
             <canvas 
                 ref={canvasRef} 
-                className="absolute inset-0 w-full h-full transform-gpu" 
-                style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+                className="absolute inset-0 w-full h-full transform-gpu"
+                style={{ willChange: 'transform', transform: 'translateZ(0)', opacity: 0.65 }}
             />
             {/* Seamless fade-out at the bottom edge of the hero */}
             <div

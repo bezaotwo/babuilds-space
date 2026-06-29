@@ -178,9 +178,9 @@ function AppContent() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="flex flex-wrap gap-8 justify-center w-full"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full"
           >
-            <motion.div variants={itemVariants} className="w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] flex">
+            <motion.div variants={itemVariants} className="flex">
               <ProjectCard
                 title={t.card_1_title}
                 subtitle={t.card_1_subtitle}
@@ -191,7 +191,7 @@ function AppContent() {
                 className="w-full"
               />
             </motion.div>
-            <motion.div variants={itemVariants} className="w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] flex">
+            <motion.div variants={itemVariants} className="flex">
               <ProjectCard
                 title={t.card_2_title}
                 subtitle={t.card_2_subtitle}
@@ -202,7 +202,7 @@ function AppContent() {
                 className="w-full"
               />
             </motion.div>
-            <motion.div variants={itemVariants} className="w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] flex">
+            <motion.div variants={itemVariants} className="flex">
               <ProjectCard
                 title={t.card_3_title}
                 subtitle={t.card_3_subtitle}
@@ -212,7 +212,7 @@ function AppContent() {
                 className="w-full"
               />
             </motion.div>
-            <motion.div variants={itemVariants} className="w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] flex">
+            <motion.div variants={itemVariants} className="flex">
               <ProjectCard
                 title={t.card_5_title}
                 subtitle={t.card_5_subtitle}
@@ -222,7 +222,7 @@ function AppContent() {
                 className="w-full"
               />
             </motion.div>
-            <motion.div variants={itemVariants} className="w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] flex">
+            <motion.div variants={itemVariants} className="flex">
               <ProjectCard
                 title={t.card_4_title}
                 subtitle={t.card_4_subtitle}
@@ -238,9 +238,9 @@ function AppContent() {
         {/* ── About ── */}
         <section id="about" className="flex flex-col gap-8">
           <h2 className="text-3xl font-bold text-slate-100">{t.architect_title}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             {/* Left: text */}
-            <div className={`${sectionCard} p-8 md:p-10 flex flex-col gap-6`}>
+            <div className={`${sectionCard} p-8 flex flex-col gap-6`}>
               <p className="text-base sm:text-lg leading-relaxed text-slate-300">{t.architect_p1}</p>
               <p className="text-base sm:text-lg leading-relaxed text-slate-300">{t.architect_p2}</p>
               <p className="text-base sm:text-lg leading-relaxed text-slate-300">{t.architect_p3}</p>
@@ -272,7 +272,7 @@ function AppContent() {
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-6">
                   <div>
                     <h3 className="text-xl font-bold text-slate-100">{exp.role}</h3>
-                    <p className="text-slate-300 font-semibold mt-1">{exp.company}</p>
+                    <p className="text-cyan-400 font-semibold mt-1">{exp.company}</p>
                   </div>
                   <span className="text-slate-400 text-sm whitespace-nowrap pt-1">{exp.date}</span>
                 </div>
@@ -395,7 +395,7 @@ function AppContent() {
       </button>
 
       <footer className="w-full text-center py-8 text-xs font-medium tracking-widest uppercase flex flex-col sm:flex-row justify-between items-center px-12 max-w-7xl mx-auto text-slate-600">
-        <span>&copy; {new Date().getFullYear()} Beyzanur Acısu · BUILT WITH THOCK</span>
+        <span>&copy; {new Date().getFullYear()} Beyzanur Acısu</span>
         <div className="flex gap-6 mt-4 sm:mt-0">
           {[
             { label: 'LinkedIn', href: 'https://linkedin.com/in/beyzanuracisu' },
@@ -511,7 +511,7 @@ function SkillColumn({ title, skills, className = "" }: { title: string; skills:
         {skills.map(skill => (
           <span
             key={skill}
-            className="bg-slate-800/80 text-slate-300 px-4 py-1.5 rounded-full text-xs font-medium border-none"
+            className="bg-white/[0.08] text-slate-300 px-4 py-1.5 rounded-full text-xs font-medium border-none"
           >
             {skill}
           </span>
