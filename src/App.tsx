@@ -359,8 +359,6 @@ function AppContent() {
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full mt-2">
               <a
                 href="mailto:acisubeyzanur@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
                 className={`w-full sm:w-auto px-8 h-14 ${solidBtn} flex flex-col items-center justify-center`}
               >
                 <span className="font-semibold text-sm flex items-center gap-2">
