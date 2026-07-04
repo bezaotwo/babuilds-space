@@ -78,7 +78,10 @@ export const translations = {
     contact_availability: "Open to freelance and full-time roles — based in Istanbul.",
     contact_response: "I typically respond within 24 hours.",
     contact_email_btn: "Send an email →",
-    contact_linkedin_btn: "Connect on LinkedIn →"
+    contact_linkedin_btn: "Connect on LinkedIn →",
+    card_1_url: "https://pedagojikuyku.com",
+    card_2_url: "https://nevzatyildirim.com",
+    card_4_url: "https://globalvision2000.com"
   },
   tr: {
     nav_home: "Ana Sayfa",
@@ -159,6 +162,9 @@ export const translations = {
     contact_availability: "Serbest çalışan (freelance) ve tam zamanlı rollere açık — İstanbul.",
     contact_response: "Genellikle 24 saat içinde yanıt veririm.",
     contact_email_btn: "E-posta gönder →",
-    contact_linkedin_btn: "LinkedIn'de bağlan →"
+    contact_linkedin_btn: "LinkedIn'de bağlan →",
+    card_1_url: "https://pedagojikuyku.com",
+    card_2_url: "https://nevzatyildirim.com",
+    card_4_url: "https://globalvision2000.com"
   }
 };

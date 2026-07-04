@@ -189,6 +189,7 @@ function AppContent() {
                 icon={<LayoutTemplate size={32} />}
                 image="/pedagojikuyku-ss.webp"
                 className="w-full"
+                url={t.card_1_url}
               />
             </motion.div>
             <motion.div variants={itemVariants} className="flex">
@@ -200,6 +201,7 @@ function AppContent() {
                 icon={<LayoutTemplate size={32} />}
                 image="/nevzatyildirim-ss.webp"
                 className="w-full"
+                url={t.card_2_url}
               />
             </motion.div>
             <motion.div variants={itemVariants} className="flex">
@@ -230,6 +232,7 @@ function AppContent() {
                 tags={['Database Administration', 'UI/UX Debugging', 'Legacy Systems']}
                 image="/globalvision2000-ss.webp"
                 className="w-full"
+                url={t.card_4_url}
               />
             </motion.div>
           </motion.div>
@@ -421,7 +424,7 @@ function AppContent() {
 // PROJECT CARD
 // ─────────────────────────────────────────────
 function ProjectCard({
-  title, subtitle, desc, tags, icon, image, className = ""
+  title, subtitle, desc, tags, icon, image, url, className = ""
 }: {
   title: string;
   subtitle: string;
@@ -429,18 +432,18 @@ function ProjectCard({
   tags: string[];
   icon?: React.ReactNode;
   image?: string;
+  url?: string;
   className?: string;
 }) {
   const { playSound } = useTactileAudio();
 
-  return (
-    <div
-      className={`group relative rounded-[32px] p-8 bg-slate-900 border border-slate-800 transition-all duration-300 flex flex-col shadow-[0_8px_30px_rgb(0,0,0,0.4)] hover:shadow-[0_8px_30px_rgba(6,182,212,0.15)] hover:-translate-y-1 active:translate-y-0 cursor-pointer overflow-hidden ${className}`}
-      onMouseEnter={() => playSound('click')}
-    >
-      <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 text-cyan-400 z-10">
-        <ArrowUpRight size={20} />
-      </div>
+  const cardContent = (
+    <>
+      {url && (
+        <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 text-cyan-400 z-10">
+          <ArrowUpRight size={20} />
+        </div>
+      )}
       {/* Image / icon */}
       <div className="mb-6">
         <div className="w-full h-36 rounded-2xl flex items-center justify-center bg-slate-950 overflow-hidden border border-slate-800">
@@ -448,10 +451,12 @@ function ProjectCard({
             <img
               src={image}
               alt={title}
-              className="w-full h-full object-cover object-top grayscale-[60%] brightness-75 opacity-80 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 transition-all duration-500"
+              className={`w-full h-full object-cover object-top grayscale-[60%] brightness-75 opacity-80 transition-all duration-500 ${
+                url ? 'group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100' : ''
+              }`}
             />
           ) : (
-            <span className="text-slate-600 group-hover:text-cyan-400 transition-colors duration-300">{icon}</span>
+            <span className={`text-slate-600 transition-colors duration-300 ${url ? 'group-hover:text-cyan-400' : ''}`}>{icon}</span>
           )}
         </div>
       </div>
@@ -468,6 +473,28 @@ function ProjectCard({
           ))}
         </div>
       </div>
+    </>
+  );
+
+  if (url) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`group relative rounded-[32px] p-8 bg-slate-900 border border-slate-800 transition-all duration-300 flex flex-col shadow-[0_8px_30px_rgb(0,0,0,0.4)] hover:shadow-[0_8px_30px_rgba(6,182,212,0.15)] hover:border-slate-700 hover:-translate-y-1 active:translate-y-0 cursor-pointer overflow-hidden ${className}`}
+        onMouseEnter={() => playSound('click')}
+      >
+        {cardContent}
+      </a>
+    );
+  }
+
+  return (
+    <div
+      className={`relative rounded-[32px] p-8 bg-slate-900 border border-slate-800 flex flex-col shadow-[0_8px_30px_rgb(0,0,0,0.4)] cursor-default overflow-hidden ${className}`}
+    >
+      {cardContent}
     </div>
   );
 }
