@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion, useReducedMotion, LayoutGroup } from 'motion/react';
 import { Volume2, VolumeX, ArrowUpRight, ExternalLink, LayoutTemplate, BarChart3, Mail, Linkedin } from 'lucide-react';
 import { ConfigProvider, useConfig } from './contexts/ConfigContext';
 import { useTactileAudio } from './hooks/useTactileAudio';
@@ -65,7 +65,17 @@ function AppContent() {
 
       {/* ── Navigation ── */}
       <nav className="fixed top-0 left-0 right-0 z-[100] bg-slate-950/80 backdrop-blur-md border-b border-slate-800 flex items-center justify-between px-6 md:px-12 h-16">
-        <span className="font-bold tracking-widest text-slate-300 text-sm uppercase">BA</span>
+        <a
+          href="/"
+          aria-label="BA Builds — home"
+          className="flex items-center"
+        >
+          <img
+            src="/BAbuildsLOGO-V2.png"
+            alt="BA Builds Logo"
+            className="h-10 w-auto object-contain"
+          />
+        </a>
         <div className="flex gap-6 md:gap-8 items-center">
           {['home', 'works', 'skills', 'contact'].map((item) => (
             <button
@@ -80,15 +90,34 @@ function AppContent() {
             </button>
           ))}
         </div>
-        <div className="flex items-center">
-          <button
-            onClick={() => { playSound('toggle'); toggleLang(); }}
-            aria-label="Toggle Language"
-            className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-slate-400 hover:text-slate-100 transition-colors duration-300 cursor-pointer outline-none"
+        <LayoutGroup>
+          <div
+            className="flex items-center rounded-full bg-slate-800/50 border border-slate-700 p-1 cursor-pointer"
+            role="group"
+            aria-label="Language selector"
           >
-            {lang === 'en' ? 'EN' : 'TR'}
-          </button>
-        </div>
+            {(['en', 'tr'] as const).map((l) => (
+              <button
+                key={l}
+                onClick={() => { playSound('toggle'); setLang(l); }}
+                aria-pressed={lang === l}
+                className="relative px-3 py-1 text-xs font-bold uppercase tracking-widest outline-none cursor-pointer transition-colors duration-200 rounded-full"
+              >
+                {/* Sliding background pill */}
+                {lang === l && (
+                  <motion.div
+                    layoutId="lang-indicator"
+                    className="absolute inset-0 rounded-full bg-cyan-500/10 border border-cyan-500/30"
+                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                  />
+                )}
+                <span className={`relative z-10 transition-colors duration-200 ${lang === l ? 'text-cyan-300' : 'text-slate-500 hover:text-slate-400'}`}>
+                  {l.toUpperCase()}
+                </span>
+              </button>
+            ))}
+          </div>
+        </LayoutGroup>
       </nav>
 
       {/* ── HERO ── */}
