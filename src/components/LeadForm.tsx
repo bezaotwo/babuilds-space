@@ -140,10 +140,14 @@ export function LeadForm() {
     // ── Web3Forms submission ────────────────────
     try {
       const payload = {
-        access_key: 'YOUR_ACCESS_KEY_HERE', // ← paste your Web3Forms key here
+        access_key: 'c87d12d0-7826-4ef4-81a9-52922cf7015b',
+        // Use the standard 'email' key so Web3Forms sets the Reply-To header
+        email: formData.contactInfo.trim(),
+        // Add a dynamic subject to bypass Gmail's generic spam filters
+        subject: `New Lead: ${formData.serviceType} for babuilds.space`,
+        // Custom fields will be formatted in the email body
         service_needed: formData.serviceType,
         project_scope: formData.projectScope,
-        client_email: formData.contactInfo.trim(),
       };
 
       const response = await fetch('https://api.web3forms.com/submit', {
@@ -354,10 +358,9 @@ export function LeadForm() {
                       placeholder:text-slate-600 text-sm font-medium outline-none
                       focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/60
                       transition-all duration-200
-                      ${
-                        emailError
-                          ? 'border-red-500/60 focus:ring-red-500/30'
-                          : 'border-slate-700 hover:border-slate-600 focus:border-cyan-500/60'
+                      ${emailError
+                        ? 'border-red-500/60 focus:ring-red-500/30'
+                        : 'border-slate-700 hover:border-slate-600 focus:border-cyan-500/60'
                       }`}
                   />
                   <AnimatePresence>
@@ -395,10 +398,9 @@ export function LeadForm() {
                   whileTap={isSubmitting ? {} : { scale: 0.97 }}
                   className={`w-full flex items-center justify-center gap-2.5 py-4 rounded-2xl
                     font-bold text-sm transition-all duration-200 outline-none
-                    ${
-                      isSubmitting
-                        ? 'bg-cyan-700 text-slate-300 cursor-not-allowed shadow-none'
-                        : 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 cursor-pointer shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_45px_rgba(6,182,212,0.55)]'
+                    ${isSubmitting
+                      ? 'bg-cyan-700 text-slate-300 cursor-not-allowed shadow-none'
+                      : 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 cursor-pointer shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_45px_rgba(6,182,212,0.55)]'
                     }`}
                 >
                   {isSubmitting ? (
