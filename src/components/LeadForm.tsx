@@ -260,7 +260,7 @@ export function LeadForm() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="flex flex-col gap-3"
+              className="flex flex-col gap-3 p-2"
             >
               <h3 className="text-xl sm:text-2xl font-bold text-slate-100 text-center mb-3">
                 What do you need built?
@@ -292,7 +292,7 @@ export function LeadForm() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="flex flex-col gap-3"
+              className="flex flex-col gap-3 p-2"
             >
               <h3 className="text-xl sm:text-2xl font-bold text-slate-100 text-center mb-3">
                 What is the project scope?
@@ -324,7 +324,7 @@ export function LeadForm() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="flex flex-col gap-5"
+              className="flex flex-col gap-5 p-2"
             >
               <div className="text-center">
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-100 mb-2">
