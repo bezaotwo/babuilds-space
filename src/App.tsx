@@ -1,12 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { motion, useReducedMotion, LayoutGroup } from 'motion/react';
-import { Volume2, VolumeX, ArrowUpRight, ExternalLink, LayoutTemplate, BarChart3, Mail, Linkedin } from 'lucide-react';
+import { Volume2, VolumeX, ArrowUpRight, ExternalLink, LayoutTemplate, Mail, Linkedin } from 'lucide-react';
 import { ConfigProvider, useConfig } from './contexts/ConfigContext';
 import { useTactileAudio } from './hooks/useTactileAudio';
 import { translations } from './utils/translations';
 import HeroWave from './components/Herowave';
 import { GooeyText } from './components/GooeyText';
-import { LeadForm } from './components/LeadForm';
+
+// Heavy below-fold components — code-split into their own chunk
+const LeadForm = lazy(() =>
+  import('./components/LeadForm').then((m) => ({ default: m.LeadForm }))
+);
+
+// ─────────────────────────────────────────────
+// SUSPENSE FALLBACK — dark slate skeleton
+// ─────────────────────────────────────────────
+function FormSkeleton() {
+  return (
+    <div className="w-full flex flex-col items-center gap-6 py-4 animate-pulse">
+      {/* Step dots */}
+      <div className="flex gap-2">
+        <div className="h-2 w-6 rounded-full bg-cyan-800/60" />
+        <div className="h-2 w-2 rounded-full bg-slate-700" />
+        <div className="h-2 w-2 rounded-full bg-slate-700" />
+      </div>
+      {/* Step label */}
+      <div className="h-3 w-24 rounded-full bg-slate-800" />
+      {/* Option buttons */}
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="w-full h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50" />
+      ))}
+    </div>
+  );
+}
 
 // ─────────────────────────────────────────────
 // SHARED STYLE CONSTANTS
@@ -23,8 +49,6 @@ function AppContent() {
   const { lang, setLang } = useConfig();
   const t = translations[lang];
   const { isMuted, toggleMute, playSound } = useTactileAudio();
-
-  const toggleLang = () => setLang(lang === 'en' ? 'tr' : 'en');
 
   const [activeSection, setActiveSection] = useState('home');
   const handleNavClick = (id: string) => {
@@ -133,6 +157,7 @@ function AppContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
+            style={{ willChange: 'transform, opacity' }}
             className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-8 text-slate-100 flex flex-col md:flex-row items-center justify-center gap-x-4 gap-y-2"
           >
             <span>{t.hero_title}</span>
@@ -150,6 +175,7 @@ function AppContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+            style={{ willChange: 'transform, opacity' }}
             className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10"
           >
             {t.hero_tagline}
@@ -159,6 +185,7 @@ function AppContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+            style={{ willChange: 'transform, opacity' }}
             className="flex flex-col sm:flex-row gap-4 items-center justify-center"
           >
             <button
@@ -385,7 +412,9 @@ function AppContent() {
 
           {/* Multi-step lead form card */}
           <div className={`${sectionCard} px-6 py-10 md:px-12 md:py-12 w-full max-w-xl mx-auto`}>
-            <LeadForm />
+            <Suspense fallback={<FormSkeleton />}>
+              <LeadForm />
+            </Suspense>
           </div>
 
           {/* Fallback direct links */}
@@ -480,6 +509,8 @@ function ProjectCard({
             <img
               src={image}
               alt={title}
+              loading="lazy"
+              decoding="async"
               className={`w-full h-full object-cover object-top grayscale-[60%] brightness-75 opacity-80 transition-all duration-500 ${
                 url ? 'group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100' : ''
               }`}
