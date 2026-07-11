@@ -121,17 +121,17 @@ export function LeadForm() {
   const getScopeLabel = (scope: string) => {
     switch (scope) {
       // Web Design scopes
-      case 'Landing Page':        return t.lead_landing_page;
-      case 'Multi-page Website':  return t.lead_multi_page_website;
-      case 'E-commerce Site':     return t.lead_ecommerce_site;
+      case 'Landing Page': return t.lead_landing_page;
+      case 'Multi-page Website': return t.lead_multi_page_website;
+      case 'E-commerce Site': return t.lead_ecommerce_site;
       // Full-Stack App scopes
-      case 'MVP / Prototype':     return t.lead_mvp_prototype;
-      case 'SaaS Platform':       return t.lead_saas_platform;
-      case 'Custom Web App':      return t.lead_custom_web_app;
+      case 'MVP / Prototype': return t.lead_mvp_prototype;
+      case 'SaaS Platform': return t.lead_saas_platform;
+      case 'Custom Web App': return t.lead_custom_web_app;
       // Data Dashboard scopes
-      case 'Business Analytics':  return t.lead_business_analytics;
-      case 'Admin Panel':         return t.lead_admin_panel;
-      case 'Data Visualization':  return t.lead_data_visualization;
+      case 'Business Analytics': return t.lead_business_analytics;
+      case 'Admin Panel': return t.lead_admin_panel;
+      case 'Data Visualization': return t.lead_data_visualization;
       default: return scope;
     }
   };
@@ -342,18 +342,18 @@ export function LeadForm() {
           {step === 2 && (() => {
             const scopeOptions: Record<string, { emoji: string; label: string; value: string }[]> = {
               'Web Design': [
-                { emoji: '🚀', label: t.lead_landing_page,       value: 'Landing Page' },
-                { emoji: '🌐', label: t.lead_multi_page_website,  value: 'Multi-page Website' },
-                { emoji: '🛍️', label: t.lead_ecommerce_site,      value: 'E-commerce Site' },
+                { emoji: '🚀', label: t.lead_landing_page, value: 'Landing Page' },
+                { emoji: '🌐', label: t.lead_multi_page_website, value: 'Multi-page Website' },
+                { emoji: '🛍️', label: t.lead_ecommerce_site, value: 'E-commerce Site' },
               ],
               'Full-Stack App': [
-                { emoji: '🏗️', label: t.lead_mvp_prototype,      value: 'MVP / Prototype' },
-                { emoji: '☁️', label: t.lead_saas_platform,      value: 'SaaS Platform' },
-                { emoji: '⚙️', label: t.lead_custom_web_app,     value: 'Custom Web App' },
+                { emoji: '🏗️', label: t.lead_mvp_prototype, value: 'MVP / Prototype' },
+                { emoji: '☁️', label: t.lead_saas_platform, value: 'SaaS Platform' },
+                { emoji: '⚙️', label: t.lead_custom_web_app, value: 'Custom Web App' },
               ],
               'Data Dashboard': [
                 { emoji: '📈', label: t.lead_business_analytics, value: 'Business Analytics' },
-                { emoji: '🔐', label: t.lead_admin_panel,        value: 'Admin Panel' },
+                { emoji: '🔐', label: t.lead_admin_panel, value: 'Admin Panel' },
                 { emoji: '📉', label: t.lead_data_visualization, value: 'Data Visualization' },
               ],
             };
