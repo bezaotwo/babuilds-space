@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle2, Send, ChevronLeft } from 'lucide-react';
+import { useConfig } from '../contexts/ConfigContext';
+import { translations } from '../utils/translations';
 
 // ─────────────────────────────────────────────
 // TYPES
@@ -90,6 +92,9 @@ function OptionButton({
 // MAIN COMPONENT
 // ─────────────────────────────────────────────
 export function LeadForm() {
+  const { lang } = useConfig();
+  const t = translations[lang];
+
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [formData, setFormData] = useState<FormData>({
@@ -103,6 +108,51 @@ export function LeadForm() {
   const [submitError, setSubmitError] = useState('');
 
   const totalSteps = 3;
+
+  const getServiceLabel = (service: string) => {
+    switch (service) {
+      case 'Web Design': return t.lead_web_design;
+      case 'Full-Stack App': return t.lead_full_stack_app;
+      case 'Data Dashboard': return t.lead_data_dashboard;
+      default: return service;
+    }
+  };
+
+  const getScopeLabel = (scope: string) => {
+    switch (scope) {
+      case 'Landing Page': return t.lead_landing_page;
+      case 'Multi-page Website': return t.lead_multi_page_website;
+      case 'Custom Platform': return t.lead_custom_platform;
+      default: return scope;
+    }
+  };
+
+  const renderSuccessDesc = () => {
+    const template = t.lead_success_desc;
+    const serviceNode = (
+      <span className="text-cyan-300 font-semibold" key="service">
+        {getServiceLabel(formData.serviceType)}
+      </span>
+    );
+    const scopeNode = (
+      <span className="text-cyan-300 font-semibold" key="scope">
+        {getScopeLabel(formData.projectScope)}
+      </span>
+    );
+    const emailNode = (
+      <span className="text-cyan-300 font-semibold" key="email">
+        {formData.contactInfo}
+      </span>
+    );
+
+    const parts = template.split(/(\{service\}|\{scope\}|\{email\})/g);
+    return parts.map((part) => {
+      if (part === '{service}') return serviceNode;
+      if (part === '{scope}') return scopeNode;
+      if (part === '{email}') return emailNode;
+      return part;
+    });
+  };
 
   const advance = (newStep: number) => {
     setDirection(1);
@@ -211,13 +261,9 @@ export function LeadForm() {
           transition={{ delay: 0.3, duration: 0.4 }}
           className="flex flex-col gap-2"
         >
-          <h3 className="text-xl font-bold text-slate-100">Proposal incoming! 🚀</h3>
+          <h3 className="text-xl font-bold text-slate-100">{t.lead_success_title}</h3>
           <p className="text-slate-400 text-sm max-w-xs mx-auto leading-relaxed">
-            I'll craft a tailored proposal for your{' '}
-            <span className="text-cyan-300 font-semibold">{formData.serviceType}</span>
-            {' '}({formData.projectScope}) and send it to{' '}
-            <span className="text-cyan-300 font-semibold">{formData.contactInfo}</span>{' '}
-            within 24 hours.
+            {renderSuccessDesc()}
           </p>
         </motion.div>
         <motion.button
@@ -230,7 +276,7 @@ export function LeadForm() {
           className="mt-2 px-6 py-2.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-xs font-semibold
             hover:border-cyan-500/40 hover:text-cyan-300 transition-all duration-200 cursor-pointer outline-none"
         >
-          Start over
+          {t.lead_start_over}
         </motion.button>
       </motion.div>
     );
@@ -244,7 +290,7 @@ export function LeadForm() {
 
       {/* Step Counter Label */}
       <p className="text-center text-[10px] font-bold tracking-[0.2em] uppercase text-slate-500 mb-6">
-        Step {step} of {totalSteps}
+        {t.lead_step.replace('{step}', String(step)).replace('{totalSteps}', String(totalSteps))}
       </p>
 
       {/* Animated Step Content */}
@@ -263,21 +309,21 @@ export function LeadForm() {
               className="flex flex-col gap-3 p-2"
             >
               <h3 className="text-xl sm:text-2xl font-bold text-slate-100 text-center mb-3">
-                What do you need built?
+                {t.lead_step1_title}
               </h3>
               <OptionButton
                 emoji="🎨"
-                label="Web Design"
+                label={t.lead_web_design}
                 onClick={() => handleServiceSelect('Web Design')}
               />
               <OptionButton
                 emoji="⚡"
-                label="Full-Stack App"
+                label={t.lead_full_stack_app}
                 onClick={() => handleServiceSelect('Full-Stack App')}
               />
               <OptionButton
                 emoji="📊"
-                label="Data Dashboard"
+                label={t.lead_data_dashboard}
                 onClick={() => handleServiceSelect('Data Dashboard')}
               />
             </motion.div>
@@ -295,21 +341,21 @@ export function LeadForm() {
               className="flex flex-col gap-3 p-2"
             >
               <h3 className="text-xl sm:text-2xl font-bold text-slate-100 text-center mb-3">
-                What is the project scope?
+                {t.lead_step2_title}
               </h3>
               <OptionButton
                 emoji="🚀"
-                label="Landing Page"
+                label={t.lead_landing_page}
                 onClick={() => handleScopeSelect('Landing Page')}
               />
               <OptionButton
                 emoji="🌐"
-                label="Multi-page Website"
+                label={t.lead_multi_page_website}
                 onClick={() => handleScopeSelect('Multi-page Website')}
               />
               <OptionButton
                 emoji="🏗️"
-                label="Custom Platform"
+                label={t.lead_custom_platform}
                 onClick={() => handleScopeSelect('Custom Platform')}
               />
             </motion.div>
@@ -328,16 +374,16 @@ export function LeadForm() {
             >
               <div className="text-center">
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-100 mb-2">
-                  Where should I send the proposal?
+                  {t.lead_step3_title}
                 </h3>
                 {/* Breadcrumb summary of choices */}
                 <div className="flex items-center justify-center gap-2 mt-1">
                   <span className="text-xs px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-medium">
-                    {formData.serviceType}
+                    {getServiceLabel(formData.serviceType)}
                   </span>
                   <span className="text-slate-600 text-xs">·</span>
                   <span className="text-xs px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 font-medium">
-                    {formData.projectScope}
+                    {getScopeLabel(formData.projectScope)}
                   </span>
                 </div>
               </div>
@@ -352,7 +398,7 @@ export function LeadForm() {
                       setFormData((d) => ({ ...d, contactInfo: e.target.value }));
                       if (emailError) setEmailError('');
                     }}
-                    placeholder="your@email.com"
+                    placeholder={t.lead_email_placeholder}
                     autoFocus
                     className={`w-full px-5 py-4 rounded-2xl bg-slate-800/60 border text-slate-200
                       placeholder:text-slate-600 text-sm font-medium outline-none
@@ -425,12 +471,12 @@ export function LeadForm() {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                         />
                       </svg>
-                      Sending...
+                      {t.lead_sending}
                     </>
                   ) : (
                     <>
                       <Send size={16} />
-                      Send my proposal
+                      {t.lead_submit_btn}
                     </>
                   )}
                 </motion.button>
@@ -454,7 +500,7 @@ export function LeadForm() {
               transition-colors duration-200 cursor-pointer mx-auto outline-none"
           >
             <ChevronLeft size={14} />
-            Go back
+            {t.lead_go_back}
           </motion.button>
         )}
       </AnimatePresence>

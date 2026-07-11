@@ -350,7 +350,7 @@ function AppContent() {
           <div className="flex flex-col gap-2">
             <h2 className="text-3xl font-bold text-slate-100">{t.contact_title}</h2>
             <p className="text-slate-400 text-sm">
-              Tell me what you're building — I'll put together a personalised proposal.
+              {t.contact_tagline}
             </p>
           </div>
 
