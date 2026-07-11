@@ -6,6 +6,7 @@ import { useTactileAudio } from './hooks/useTactileAudio';
 import { translations } from './utils/translations';
 import HeroWave from './components/Herowave';
 import { GooeyText } from './components/GooeyText';
+import { LeadForm } from './components/LeadForm';
 
 // ─────────────────────────────────────────────
 // SHARED STYLE CONSTANTS
@@ -346,40 +347,39 @@ function AppContent() {
 
         {/* ── Contact ── */}
         <section id="contact" className="flex flex-col gap-8">
-          <h2 className="text-3xl font-bold text-slate-100">{t.contact_title}</h2>
-          <div className={`${sectionCard} px-6 py-10 md:px-12 md:py-12 flex flex-col items-center text-center gap-6 w-full`}>
-            {/* Availability Context */}
-            <div className="flex flex-col gap-1.5">
-              <p className="text-base text-slate-200 font-semibold tracking-tight">
-                {t.contact_availability}
-              </p>
-              <p className="text-xs text-slate-400">
-                {t.contact_response}
-              </p>
-            </div>
+          <div className="flex flex-col gap-2">
+            <h2 className="text-3xl font-bold text-slate-100">{t.contact_title}</h2>
+            <p className="text-slate-400 text-sm">
+              Tell me what you're building — I'll put together a personalised proposal.
+            </p>
+          </div>
 
-            {/* Labeled Pill Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full mt-2">
-              <a
-                href="mailto:acisubeyzanur@gmail.com"
-                className={`w-full sm:w-auto px-8 h-14 ${solidBtn} flex flex-col items-center justify-center`}
-              >
-                <span className="font-semibold text-sm flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  {t.contact_email_btn}
-                </span>
-                <span className="text-[10px] text-cyan-300 font-medium">acisubeyzanur@gmail.com</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/beyzanur-acisu-722163207/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`w-full sm:w-auto px-8 h-14 ${ghostBtn} flex items-center justify-center gap-2 text-sm font-semibold`}
-              >
-                <Linkedin className="w-4 h-4" />
-                {t.contact_linkedin_btn}
-              </a>
-            </div>
+          {/* Multi-step lead form card */}
+          <div className={`${sectionCard} px-6 py-10 md:px-12 md:py-12 w-full max-w-xl mx-auto`}>
+            <LeadForm />
+          </div>
+
+          {/* Fallback direct links */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full">
+            <a
+              href="mailto:acisubeyzanur@gmail.com"
+              className={`w-full sm:w-auto px-8 h-12 ${solidBtn} flex flex-col items-center justify-center`}
+            >
+              <span className="font-semibold text-sm flex items-center gap-2">
+                <Mail className="w-4 h-4" />
+                {t.contact_email_btn}
+              </span>
+              <span className="text-[10px] text-cyan-300 font-medium">acisubeyzanur@gmail.com</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/beyzanur-acisu-722163207/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-full sm:w-auto px-8 h-12 ${ghostBtn} flex items-center justify-center gap-2 text-sm font-semibold`}
+            >
+              <Linkedin className="w-4 h-4" />
+              {t.contact_linkedin_btn}
+            </a>
           </div>
         </section>
 
