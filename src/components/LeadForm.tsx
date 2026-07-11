@@ -120,9 +120,18 @@ export function LeadForm() {
 
   const getScopeLabel = (scope: string) => {
     switch (scope) {
-      case 'Landing Page': return t.lead_landing_page;
-      case 'Multi-page Website': return t.lead_multi_page_website;
-      case 'Custom Platform': return t.lead_custom_platform;
+      // Web Design scopes
+      case 'Landing Page':        return t.lead_landing_page;
+      case 'Multi-page Website':  return t.lead_multi_page_website;
+      case 'E-commerce Site':     return t.lead_ecommerce_site;
+      // Full-Stack App scopes
+      case 'MVP / Prototype':     return t.lead_mvp_prototype;
+      case 'SaaS Platform':       return t.lead_saas_platform;
+      case 'Custom Web App':      return t.lead_custom_web_app;
+      // Data Dashboard scopes
+      case 'Business Analytics':  return t.lead_business_analytics;
+      case 'Admin Panel':         return t.lead_admin_panel;
+      case 'Data Visualization':  return t.lead_data_visualization;
       default: return scope;
     }
   };
@@ -329,37 +338,51 @@ export function LeadForm() {
             </motion.div>
           )}
 
-          {/* ─── STEP 2: Project Scope ─── */}
-          {step === 2 && (
-            <motion.div
-              key="step-2"
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="flex flex-col gap-3 p-2"
-            >
-              <h3 className="text-xl sm:text-2xl font-bold text-slate-100 text-center mb-3">
-                {t.lead_step2_title}
-              </h3>
-              <OptionButton
-                emoji="🚀"
-                label={t.lead_landing_page}
-                onClick={() => handleScopeSelect('Landing Page')}
-              />
-              <OptionButton
-                emoji="🌐"
-                label={t.lead_multi_page_website}
-                onClick={() => handleScopeSelect('Multi-page Website')}
-              />
-              <OptionButton
-                emoji="🏗️"
-                label={t.lead_custom_platform}
-                onClick={() => handleScopeSelect('Custom Platform')}
-              />
-            </motion.div>
-          )}
+          {/* ─── STEP 2: Project Scope (dynamic per serviceType) ─── */}
+          {step === 2 && (() => {
+            const scopeOptions: Record<string, { emoji: string; label: string; value: string }[]> = {
+              'Web Design': [
+                { emoji: '🚀', label: t.lead_landing_page,       value: 'Landing Page' },
+                { emoji: '🌐', label: t.lead_multi_page_website,  value: 'Multi-page Website' },
+                { emoji: '🛍️', label: t.lead_ecommerce_site,      value: 'E-commerce Site' },
+              ],
+              'Full-Stack App': [
+                { emoji: '🏗️', label: t.lead_mvp_prototype,      value: 'MVP / Prototype' },
+                { emoji: '☁️', label: t.lead_saas_platform,      value: 'SaaS Platform' },
+                { emoji: '⚙️', label: t.lead_custom_web_app,     value: 'Custom Web App' },
+              ],
+              'Data Dashboard': [
+                { emoji: '📈', label: t.lead_business_analytics, value: 'Business Analytics' },
+                { emoji: '🔐', label: t.lead_admin_panel,        value: 'Admin Panel' },
+                { emoji: '📉', label: t.lead_data_visualization, value: 'Data Visualization' },
+              ],
+            };
+            const options = scopeOptions[formData.serviceType] ?? [];
+            return (
+              <motion.div
+                key="step-2"
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="flex flex-col gap-3 p-2"
+              >
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-100 text-center mb-3">
+                  {t.lead_step2_title}
+                </h3>
+                {options.map(({ emoji, label, value }) => (
+                  <React.Fragment key={value}>
+                    <OptionButton
+                      emoji={emoji}
+                      label={label}
+                      onClick={() => handleScopeSelect(value)}
+                    />
+                  </React.Fragment>
+                ))}
+              </motion.div>
+            );
+          })()}
 
           {/* ─── STEP 3: Email Capture ─── */}
           {step === 3 && (
