@@ -195,7 +195,7 @@ function AppContent() {
               {t.cta}
             </button>
             <a
-              href="/CV_BeyzanurAcisu.pdf"
+              href="/BEYZANURACISU-ENG-RESUME-v5.pdf"
               download
               className={`px-8 py-3 font-semibold text-base ${ghostBtn}`}
             >
