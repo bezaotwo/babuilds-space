@@ -457,8 +457,8 @@ function AppContent() {
         <span>&copy; {new Date().getFullYear()} Beyzanur Acısu</span>
         <div className="flex gap-6 mt-4 sm:mt-0">
           {[
-            { label: 'LinkedIn', href: 'https://linkedin.com/in/beyzanuracisu' },
-            { label: 'GitHub', href: 'https://github.com/' },
+            { label: 'LinkedIn', href: 'https://www.linkedin.com/in/beyzanur-acisu-722163207/' },
+            { label: 'GitHub', href: 'https://github.com/bezaotwo' },
             { label: 'Behance', href: 'https://behance.net/' },
           ].map(({ label, href }) => (
             <a
