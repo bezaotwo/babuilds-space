@@ -122,13 +122,23 @@ const HeroWave = React.memo(() => {
     }, [isDesktop]);
 
     if (!isDesktop) {
-        return null;
+        return (
+            <div
+                className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0"
+                style={{
+                    backgroundImage: "url('/mobilebg.svg')",
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'bottom center',
+                    backgroundRepeat: 'no-repeat',
+                }}
+            />
+        );
     }
 
     return (
         <>
-            <canvas 
-                ref={canvasRef} 
+            <canvas
+                ref={canvasRef}
                 className="absolute inset-0 w-full h-full transform-gpu"
                 style={{ willChange: 'transform', transform: 'translateZ(0)', opacity: 0.65 }}
             />

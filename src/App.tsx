@@ -88,19 +88,7 @@ function AppContent() {
 
 
   return (
-    <div className="min-h-screen bg-transparent md:bg-slate-950 text-slate-100 w-full relative selection:bg-cyan-500 selection:text-slate-950">
-
-      {/* Fixed Mobile Background Image */}
-      <div
-        className="fixed inset-0 w-full h-full pointer-events-none z-0 md:hidden"
-        style={{
-          backgroundImage: "url('/mobilebg.svg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed"
-        }}
-      />
+    <div className="min-h-screen bg-slate-950 text-slate-100 w-full relative selection:bg-cyan-500 selection:text-slate-950">
 
       {/* ── Navigation ── */}
       <nav className="fixed top-0 left-0 right-0 z-[100] bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 flex items-center justify-between px-6 md:px-12 h-16">
@@ -240,7 +228,7 @@ function AppContent() {
       {/* ── HERO ── */}
       <section
         id="home"
-        className="relative w-full min-h-[85vh] overflow-hidden bg-transparent md:bg-slate-950"
+        className="relative w-full min-h-[85vh] overflow-hidden bg-slate-950"
       >
         <HeroWave />
 
@@ -313,12 +301,12 @@ function AppContent() {
           </svg>
         </div>
 
-        {/* Seamless gradient separator (desktop only) */}
-        <div className="hidden md:block absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-950 to-transparent z-10 pointer-events-none" />
+        {/* Seamless gradient separator */}
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-950 to-transparent z-10 pointer-events-none" />
       </section>
 
       {/* ── MAIN CONTENT ── */}
-      <main className="bg-transparent md:bg-slate-950 max-w-7xl mx-auto px-6 sm:px-12 pb-20 flex flex-col gap-32 pt-16 relative z-10">
+      <main className="bg-slate-950 max-w-7xl mx-auto px-6 sm:px-12 pb-20 flex flex-col gap-32 pt-16">
 
         {/* ── Projects ── */}
         <section id="works" className="flex flex-col gap-12">
