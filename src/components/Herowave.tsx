@@ -1,9 +1,33 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const HeroWave = React.memo(() => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
+    const [isDesktop, setIsDesktop] = useState(() => {
+        if (typeof window === 'undefined') return true;
+        return window.innerWidth > 768;
+    });
+
     useEffect(() => {
+        const mediaQuery = window.matchMedia('(min-width: 769px)');
+        const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
+            setIsDesktop(e.matches);
+        };
+
+        setIsDesktop(mediaQuery.matches);
+
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener('change', handleMediaChange);
+            return () => mediaQuery.removeEventListener('change', handleMediaChange);
+        } else {
+            mediaQuery.addListener(handleMediaChange);
+            return () => mediaQuery.removeListener(handleMediaChange);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!isDesktop) return;
+
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -95,7 +119,24 @@ const HeroWave = React.memo(() => {
             window.removeEventListener('resize', resizeCanvas);
             cancelAnimationFrame(animId);
         };
-    }, []);
+    }, [isDesktop]);
+
+    if (!isDesktop) {
+        return (
+            <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none bg-slate-950">
+                <div 
+                    className="absolute inset-0 w-full h-full"
+                    style={{
+                        background: 'radial-gradient(circle at 50% 25%, rgba(6, 182, 212, 0.14) 0%, rgba(15, 23, 42, 0.7) 45%, rgba(2, 6, 23, 1) 100%)'
+                    }}
+                />
+                <div
+                    className="absolute bottom-0 left-0 w-full h-48 pointer-events-none z-10"
+                    style={{ background: 'linear-gradient(to bottom, transparent 0%, #020617 100%)' }}
+                />
+            </div>
+        );
+    }
 
     return (
         <>
