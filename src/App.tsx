@@ -1,6 +1,6 @@
 import React, { useState, lazy, Suspense } from 'react';
-import { motion, useReducedMotion, LayoutGroup } from 'motion/react';
-import { Volume2, VolumeX, ArrowUpRight, ExternalLink, LayoutTemplate, Mail, Linkedin } from 'lucide-react';
+import { motion, useReducedMotion, LayoutGroup, AnimatePresence } from 'motion/react';
+import { Volume2, VolumeX, ArrowUpRight, ExternalLink, LayoutTemplate, Mail, Linkedin, Menu, X } from 'lucide-react';
 import { ConfigProvider, useConfig } from './contexts/ConfigContext';
 import { useTactileAudio } from './hooks/useTactileAudio';
 import { translations } from './utils/translations';
@@ -51,8 +51,11 @@ function AppContent() {
   const { isMuted, toggleMute, playSound } = useTactileAudio();
 
   const [activeSection, setActiveSection] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const handleNavClick = (id: string) => {
     setActiveSection(id);
+    setIsMobileMenuOpen(false);
     playSound('nav');
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -88,7 +91,7 @@ function AppContent() {
     <div className="min-h-screen bg-slate-950 text-slate-100 w-full relative selection:bg-cyan-500 selection:text-slate-950">
 
       {/* ── Navigation ── */}
-      <nav className="fixed top-0 left-0 right-0 z-[100] bg-slate-950/80 backdrop-blur-md border-b border-slate-800 flex items-center justify-between px-6 md:px-12 h-16">
+      <nav className="fixed top-0 left-0 right-0 z-[100] bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 flex items-center justify-between px-6 md:px-12 h-16">
         <a
           href="/"
           aria-label="BA Builds — home"
@@ -97,15 +100,17 @@ function AppContent() {
           <img
             src="/BAbuildsLOGO-V2.webp"
             alt="BA Builds Logo"
-            className="h-10 w-auto object-contain"
+            className="h-8 w-8 object-contain brightness-125 contrast-115 drop-shadow-[0_0_8px_rgba(6,182,212,0.7)] hover:drop-shadow-[0_0_12px_rgba(6,182,212,0.95)] transition-all duration-300"
           />
         </a>
-        <div className="flex gap-6 md:gap-8 items-center">
+
+        {/* Desktop Links */}
+        <div className="hidden md:flex gap-6 md:gap-8 items-center">
           {['home', 'works', 'skills', 'contact'].map((item) => (
             <button
               key={item}
               onClick={() => handleNavClick(item)}
-              className={`text-[10px] sm:text-xs font-bold transition-all duration-300 uppercase tracking-widest cursor-pointer outline-none pb-1 border-b-2 ${activeSection === item
+              className={`text-xs font-bold transition-all duration-300 uppercase tracking-widest cursor-pointer outline-none pb-1 border-b-2 ${activeSection === item
                 ? 'text-cyan-400 border-cyan-400'
                 : 'text-slate-400 hover:text-slate-100 border-transparent'
                 }`}
@@ -114,35 +119,110 @@ function AppContent() {
             </button>
           ))}
         </div>
-        <LayoutGroup>
-          <div
-            className="flex items-center rounded-full bg-slate-800/50 border border-slate-700 p-1 cursor-pointer"
-            role="group"
-            aria-label="Language selector"
+
+        {/* Desktop Language Selector */}
+        <div className="hidden md:flex items-center">
+          <LayoutGroup id="desktop-lang">
+            <div
+              className="flex items-center rounded-full bg-slate-800/50 border border-slate-700 p-1 cursor-pointer"
+              role="group"
+              aria-label="Language selector"
+            >
+              {(['en', 'tr'] as const).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => { playSound('toggle'); setLang(l); }}
+                  aria-pressed={lang === l}
+                  className="relative px-3 py-1 text-xs font-bold uppercase tracking-widest outline-none cursor-pointer transition-colors duration-200 rounded-full"
+                >
+                  {lang === l && (
+                    <motion.div
+                      layoutId="lang-indicator-desktop"
+                      className="absolute inset-0 rounded-full bg-cyan-500/10 border border-cyan-500/30"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  <span className={`relative z-10 transition-colors duration-200 ${lang === l ? 'text-cyan-300' : 'text-slate-500 hover:text-slate-400'}`}>
+                    {l.toUpperCase()}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </LayoutGroup>
+        </div>
+
+        {/* Mobile controls: EN/TR Toggle + Hamburger Menu */}
+        <div className="flex md:hidden items-center gap-3">
+          <LayoutGroup id="mobile-lang">
+            <div
+              className="flex items-center rounded-full bg-slate-800/50 border border-slate-700 p-1 cursor-pointer"
+              role="group"
+              aria-label="Language selector"
+            >
+              {(['en', 'tr'] as const).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => { playSound('toggle'); setLang(l); }}
+                  aria-pressed={lang === l}
+                  className="relative px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest outline-none cursor-pointer transition-colors duration-200 rounded-full"
+                >
+                  {lang === l && (
+                    <motion.div
+                      layoutId="lang-indicator-mobile"
+                      className="absolute inset-0 rounded-full bg-cyan-500/10 border border-cyan-500/30"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  <span className={`relative z-10 transition-colors duration-200 ${lang === l ? 'text-cyan-300' : 'text-slate-500 hover:text-slate-400'}`}>
+                    {l.toUpperCase()}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </LayoutGroup>
+
+          <button
+            onClick={() => {
+              playSound('toggle');
+              setIsMobileMenuOpen((prev) => !prev);
+            }}
+            aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMobileMenuOpen}
+            className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-400 hover:border-cyan-900/60 focus:outline-none cursor-pointer transition-all duration-200"
           >
-            {(['en', 'tr'] as const).map((l) => (
-              <button
-                key={l}
-                onClick={() => { playSound('toggle'); setLang(l); }}
-                aria-pressed={lang === l}
-                className="relative px-3 py-1 text-xs font-bold uppercase tracking-widest outline-none cursor-pointer transition-colors duration-200 rounded-full"
-              >
-                {/* Sliding background pill */}
-                {lang === l && (
-                  <motion.div
-                    layoutId="lang-indicator"
-                    className="absolute inset-0 rounded-full bg-cyan-500/10 border border-cyan-500/30"
-                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                  />
-                )}
-                <span className={`relative z-10 transition-colors duration-200 ${lang === l ? 'text-cyan-300' : 'text-slate-500 hover:text-slate-400'}`}>
-                  {l.toUpperCase()}
-                </span>
-              </button>
-            ))}
-          </div>
-        </LayoutGroup>
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </nav>
+
+      {/* Mobile Animated Dropdown Drawer */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="fixed top-16 left-0 right-0 z-[99] md:hidden bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-2xl overflow-hidden"
+          >
+            <div className="flex flex-col p-6 gap-3">
+              {['home', 'works', 'skills', 'contact'].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => handleNavClick(item)}
+                  className={`text-left text-xs font-bold tracking-widest uppercase py-3 px-4 rounded-xl border transition-all duration-200 flex items-center justify-between cursor-pointer ${activeSection === item
+                    ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)]'
+                    : 'text-slate-300 border-slate-800/40 hover:bg-slate-900 hover:text-white hover:border-slate-700'
+                    }`}
+                >
+                  <span>{t[`nav_${item}` as keyof typeof t]}</span>
+                  <span className="text-cyan-500/40 font-mono text-[10px]">//</span>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── HERO ── */}
       <section
