@@ -257,7 +257,7 @@ function AppContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
             style={{ willChange: 'transform, opacity' }}
-            className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10"
+            className="text-lg sm:text-xl text-slate-200 max-w-2xl mx-auto mb-6 sm:mb-10"
           >
             {t.hero_tagline}
           </motion.p>
@@ -267,7 +267,7 @@ function AppContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
             style={{ willChange: 'transform, opacity' }}
-            className="flex flex-col sm:flex-row gap-4 items-center justify-center"
+            className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 items-center justify-center"
           >
             <button
               onClick={() => handleNavClick('contact')}
@@ -528,10 +528,10 @@ function AppContent() {
       <button
         onClick={() => { toggleMute(); playSound('toggle'); }}
         aria-label="Toggle Audio"
-        className={`fixed bottom-6 right-6 w-14 h-14 flex items-center justify-center z-50 ${solidBtn}`}
+        className={`fixed bottom-4 right-4 w-10 h-10 sm:bottom-6 sm:right-6 sm:w-14 sm:h-14 flex items-center justify-center z-50 ${solidBtn}`}
         style={{ borderRadius: '9999px' }}
       >
-        {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+        {isMuted ? <VolumeX className="w-4 h-4 sm:w-6 sm:h-6" /> : <Volume2 className="w-4 h-4 sm:w-6 sm:h-6" />}
       </button>
 
       <footer className="w-full text-center py-8 text-xs font-medium tracking-widest uppercase flex flex-col sm:flex-row justify-between items-center px-12 max-w-7xl mx-auto text-slate-600">
