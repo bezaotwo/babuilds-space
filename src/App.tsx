@@ -484,9 +484,9 @@ function AppContent() {
 
         {/* ── Contact ── */}
         <section id="contact" className="flex flex-col gap-8">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-center items-center">
             <h2 className="text-3xl font-bold text-slate-100">{t.contact_title}</h2>
-            <p className="text-slate-400 text-sm">
+            <p className="text-slate-400 text-sm max-w-xl mx-auto">
               {t.contact_tagline}
             </p>
           </div>
