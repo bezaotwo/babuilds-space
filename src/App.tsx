@@ -199,11 +199,12 @@ function AppContent() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed top-16 left-0 right-0 z-[99] md:hidden bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-2xl overflow-hidden"
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            style={{ willChange: "transform, opacity" }}
+            className="fixed top-16 left-0 right-0 z-[99] md:hidden bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-2xl overflow-hidden will-change-[transform,opacity]"
           >
             <div className="flex flex-col p-6 gap-3">
               {['home', 'works', 'skills', 'contact'].map((item) => (
