@@ -123,18 +123,16 @@ const HeroWave = React.memo(() => {
 
     if (!isDesktop) {
         return (
-            <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none bg-slate-950">
-                <div 
-                    className="absolute inset-0 w-full h-full"
-                    style={{
-                        background: 'radial-gradient(circle at 50% 25%, rgba(6, 182, 212, 0.14) 0%, rgba(15, 23, 42, 0.7) 45%, rgba(2, 6, 23, 1) 100%)'
-                    }}
-                />
-                <div
-                    className="absolute bottom-0 left-0 w-full h-48 pointer-events-none z-10"
-                    style={{ background: 'linear-gradient(to bottom, transparent 0%, #020617 100%)' }}
-                />
-            </div>
+            <div 
+                className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0"
+                style={{
+                    backgroundImage: "url('/mobilebg.svg')",
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundAttachment: 'fixed',
+                }}
+            />
         );
     }
 
