@@ -95,7 +95,7 @@ function AppContent() {
           className="flex items-center"
         >
           <img
-            src="/BAbuildsLOGO-V2.png"
+            src="/BAbuildsLOGO-V2.webp"
             alt="BA Builds Logo"
             className="h-10 w-auto object-contain"
           />
@@ -511,9 +511,8 @@ function ProjectCard({
               alt={title}
               loading="lazy"
               decoding="async"
-              className={`w-full h-full object-cover object-top grayscale-[60%] brightness-75 opacity-80 transition-all duration-500 ${
-                url ? 'group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100' : ''
-              }`}
+              className={`w-full h-full object-cover object-top grayscale-[60%] brightness-75 opacity-80 transition-all duration-500 ${url ? 'group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100' : ''
+                }`}
             />
           ) : (
             <span className={`text-slate-600 transition-colors duration-300 ${url ? 'group-hover:text-cyan-400' : ''}`}>{icon}</span>
