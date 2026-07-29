@@ -308,7 +308,7 @@ function AppContent() {
             {/* Right: profile picture container */}
             <div className="w-full min-h-[300px] rounded-[32px] bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-800 via-slate-900 to-slate-950 border border-slate-700/50 overflow-hidden relative group/profile flex items-center justify-center">
               <img
-                src="/cvfoto.png"
+                src="/cvfoto.webp"
                 alt={t.hero_title}
                 loading="lazy"
                 className="w-full h-full object-cover object-center grayscale-[20%] brightness-95 group-hover/profile:grayscale-0 group-hover/profile:brightness-100 group-hover/profile:scale-105 transition-all duration-500 ease-out"
