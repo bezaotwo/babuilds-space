@@ -1,8 +1,8 @@
 @layer base, stick, demo, debug;
 
 :root {
-  --start: 50vh;
-  --space: 20vh;
+  --start: 50dvh;
+  --space: 20dvh;
   --hue: 265;
   --accent: #7c3aed;
   --color-accent: #280970;
@@ -139,8 +139,11 @@ ul.word-hero-list li {
       var(--dimmed) calc(var(--start) + 0.5lh));
   background-attachment: fixed;
   color: transparent;
+  -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /* Main white curtain container */

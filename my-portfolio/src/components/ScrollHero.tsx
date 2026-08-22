@@ -41,8 +41,8 @@ export function ScrollHero({
 
       <style>{`
         .hero-viewport {
-          --start: 50vh;
-          --space: 80vh;
+          --start: 50dvh;
+          --space: 80dvh;
           --accent: #0ea5e9;
           --dimmed: rgba(255, 255, 255, 0.18);
           --font-size-hero: clamp(2.5rem, 6vw, 4.75rem);
@@ -108,8 +108,11 @@ export function ScrollHero({
           );
           background-attachment: fixed;
           color: transparent;
+          -webkit-text-fill-color: transparent;
           -webkit-background-clip: text;
           background-clip: text;
+          transform: translateZ(0);
+          will-change: transform;
         }
         .content-curtain {
           width: 100%;
