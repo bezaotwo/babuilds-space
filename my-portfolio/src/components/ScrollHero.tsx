@@ -81,18 +81,18 @@ export function ScrollHero({
       <div ref={trackRef} className="relative h-[250vh] sm:h-[300vh] w-full">
         {/* Sticky Viewport Container */}
         <div className="sticky top-0 flex h-dvh sm:h-screen w-full items-center justify-center overflow-hidden z-10">
-          <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 px-6 max-w-4xl mx-auto w-full justify-center items-start sm:items-center">
+          <div className="flex flex-col sm:flex-row items-start sm:items-baseline justify-center gap-1 sm:gap-3 px-6 w-full max-w-xl mx-auto">
             {/* Static Prefix */}
-            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white shrink-0 lowercase leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white shrink-0 lowercase leading-tight">
               {prefix.trimEnd()}
             </h1>
 
             {/* Dynamic Words Column */}
-            <div className="relative h-[1.35em] overflow-hidden flex flex-col justify-start">
+            <div className="relative h-[1.5em] overflow-hidden inline-flex flex-col justify-start text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
               <div
                 className="flex flex-col will-change-transform"
                 style={{
-                  transform: `translateY(-${exactIndex * 1.35}em)`,
+                  transform: `translateY(-${exactIndex * 1.5}em)`,
                   transition: 'transform 0.05s linear',
                 }}
               >
@@ -104,9 +104,9 @@ export function ScrollHero({
                   return (
                     <div
                       key={i}
-                      className={`h-[1.35em] flex items-center text-2xl sm:text-4xl md:text-5xl font-bold lowercase tracking-tight whitespace-nowrap transition-colors duration-200 ${
+                      className={`h-[1.5em] flex items-center lowercase tracking-tight whitespace-nowrap py-1 transition-colors duration-200 ${
                         isActive
-                          ? 'text-purple-300 drop-shadow-[0_0_20px_rgba(168,85,247,0.4)]'
+                          ? 'text-purple-400 drop-shadow-[0_0_25px_rgba(192,132,252,0.45)]'
                           : 'text-zinc-600'
                       }`}
                       style={{ opacity }}
