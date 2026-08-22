@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 export interface ScrollHeroProps {
   prefix?: string;
@@ -11,123 +11,130 @@ export function ScrollHero({
   items = ['data.', 'analysis.', 'web development.', 'ui/ux.', 'marketing.'],
   children,
 }: ScrollHeroProps) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
-
   useEffect(() => {
-    let ticking = false;
-
-    const updateScrollProgress = () => {
-      const el = trackRef.current;
-      if (!el) return;
-
-      const rect = el.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const totalScrollable = rect.height - viewportHeight;
-
-      if (totalScrollable <= 0) {
-        setProgress(0);
-        return;
-      }
-
-      const currentScroll = -rect.top;
-      const p = Math.max(0, Math.min(1, currentScroll / totalScrollable));
-      setProgress(p);
-    };
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateScrollProgress();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    updateScrollProgress();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
-  }, []);
-
-  const totalWords = items.length;
-  const exactIndex = progress * (totalWords - 1);
+    document.documentElement.style.setProperty('--count', String(items.length));
+  }, [items.length]);
 
   return (
-    <div id="home" className="w-full relative bg-black">
-      {/* ── Fixed Screen Grid Background ── */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
-              linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px)
-            `,
-            backgroundSize: '45px 45px',
-            backgroundPosition: '16px 14px',
-            maskImage: 'linear-gradient(-20deg, transparent 15%, white 80%)',
-            WebkitMaskImage: 'linear-gradient(-20deg, transparent 15%, white 80%)',
-          }}
-        />
-      </div>
+    <div
+      className="hero-viewport"
+      style={{ ['--count' as string]: items.length } as React.CSSProperties}
+    >
+      {/* Pinned Sticky Word Header */}
+      <header className="sticky-track">
+        <section>
+          <h1><span>{prefix}&nbsp;</span></h1>
+          <ul aria-hidden="true">
+            {items.map((word, i) => (
+              <li key={i} style={{ ['--i' as string]: i } as React.CSSProperties}>
+                {word}
+              </li>
+            ))}
+          </ul>
+        </section>
+      </header>
 
-      {/* ── Multi-viewport Sticky Scroll Track ── */}
-      <div ref={trackRef} className="relative h-[250vh] sm:h-[300vh] w-full">
-        {/* Sticky Viewport Container */}
-        <div className="sticky top-0 flex h-dvh sm:h-screen w-full items-center justify-center overflow-hidden z-10">
-          <div className="flex flex-col sm:flex-row items-start sm:items-baseline justify-center gap-1 sm:gap-3 px-6 w-full max-w-xl mx-auto">
-            {/* Static Prefix */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white shrink-0 lowercase leading-[1.3]">
-              {prefix.trimEnd()}
-            </h1>
-
-            {/* Dynamic Words Column */}
-            <div className="relative h-[1.4em] overflow-hidden inline-flex flex-col justify-start text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.3] text-purple-400">
-              <div
-                className="flex flex-col will-change-transform"
-                style={{
-                  transform: `translateY(-${exactIndex * 1.4}em)`,
-                  transition: 'transform 0.05s linear',
-                }}
-              >
-                {items.map((word, i) => {
-                  const dist = Math.abs(exactIndex - i);
-                  const opacity = Math.max(0.2, 1 - dist * 0.85);
-                  const isActive = dist < 0.45;
-
-                  return (
-                    <div
-                      key={i}
-                      className={`h-[1.4em] flex items-center lowercase tracking-tight whitespace-nowrap transition-colors duration-200 ${
-                        isActive
-                          ? 'text-purple-400 drop-shadow-[0_0_25px_rgba(192,132,252,0.45)]'
-                          : 'text-zinc-600'
-                      }`}
-                      style={{ opacity }}
-                    >
-                      {word}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Main Rising White Curtain for all body sections ── */}
-      <main
-        id="content-curtain"
-        className="relative z-20 w-full bg-white text-zinc-950 rounded-t-[2.5rem] shadow-[0_-25px_50px_-12px_rgba(0,0,0,0.6)] border-t border-white/15"
-      >
+      {/* The Rising Curtain holding all portfolio body content */}
+      <div className="content-curtain">
         {children}
-      </main>
+      </div>
+
+      <style>{`
+        .hero-viewport {
+          --start: 50vh;
+          --space: 80vh;
+          --accent: #0ea5e9;
+          --dimmed: rgba(255, 255, 255, 0.18);
+          --font-size-hero: clamp(2.5rem, 6vw, 4.75rem);
+          --line-height-hero: 1.15;
+          --half-line: 0.575em;
+          position: relative;
+          width: 100%;
+          background-color: #020617;
+          color: #f8fafc;
+        }
+        .hero-viewport::before {
+          content: '';
+          position: fixed;
+          inset: 0;
+          z-index: 0;
+          background-image:
+            linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+          background-size: 48px 48px;
+          mask-image: linear-gradient(to bottom, black 35%, transparent 95%);
+          -webkit-mask-image: linear-gradient(to bottom, black 35%, transparent 95%);
+          pointer-events: none;
+        }
+        .sticky-track {
+          position: sticky;
+          top: calc((var(--count) - 1) * (var(--line-height-hero) * -1em));
+          display: flex;
+          align-items: flex-start;
+          width: 100%;
+          margin-bottom: var(--space);
+          z-index: 10;
+        }
+        .sticky-track section {
+          display: flex;
+          width: 100%;
+          align-items: flex-start;
+          justify-content: center;
+          padding-top: calc(var(--start) - var(--half-line));
+          gap: 0.35em;
+        }
+        .sticky-track h1, .sticky-track ul, .sticky-track li {
+          margin: 0;
+          padding: 0;
+          font-size: var(--font-size-hero);
+          line-height: var(--line-height-hero);
+          font-weight: 800;
+          letter-spacing: -0.04em;
+          text-transform: lowercase;
+        }
+        .sticky-track h1 {
+          position: sticky;
+          top: calc(var(--start) - var(--half-line));
+          color: #f8fafc;
+          white-space: nowrap;
+        }
+        .sticky-track ul { list-style: none; }
+        .sticky-track li {
+          background: linear-gradient(
+            180deg,
+            var(--dimmed) 0 calc(var(--start) - var(--half-line)),
+            var(--accent) calc(var(--start) - var(--half-line)) calc(var(--start) + var(--half-line)),
+            var(--dimmed) calc(var(--start) + var(--half-line))
+          );
+          background-attachment: fixed;
+          color: transparent;
+          -webkit-background-clip: text;
+          background-clip: text;
+        }
+        .content-curtain {
+          width: 100%;
+          position: relative;
+          z-index: 20;
+          background: #f8fafc;
+          color: #0f172a;
+          border-radius: 2.5rem 2.5rem 0 0;
+          box-shadow: 0 -25px 50px -12px rgba(0, 0, 0, 0.4);
+          border-top: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        @supports (animation-timeline: view()) {
+          .content-curtain {
+            view-timeline: --curtain-view;
+            transform-origin: 50% 100%;
+            animation: curtainGrow both ease-in-out;
+            animation-timeline: --curtain-view;
+            animation-range: entry 0% cover 40%;
+          }
+          @keyframes curtainGrow {
+            from { border-radius: 2.5rem 2.5rem 0 0; }
+            to { border-radius: 0; }
+          }
+        }
+      `}</style>
     </div>
   );
 }
