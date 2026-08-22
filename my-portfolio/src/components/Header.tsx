@@ -53,11 +53,11 @@ export function Header() {
     if (open) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = 'unset';
     }
 
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = 'unset';
     };
   }, [open]);
 
@@ -68,15 +68,16 @@ export function Header() {
           scrolled && !open
             ? 'md:top-4 md:max-w-4xl md:rounded-full bg-black/80 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/60 px-3 md:py-1'
             : 'max-w-6xl border-b border-white/5 bg-black/40 md:bg-transparent backdrop-blur-md md:backdrop-blur-none px-4 py-1'
-        } ${open ? 'bg-black/95 backdrop-blur-2xl border-b border-white/15' : ''}`}
+        } ${open ? 'bg-transparent border-transparent' : ''}`}
       >
         <nav
-          className="flex h-14 md:h-12 w-full items-center justify-between"
+          className="relative z-50 flex h-14 md:h-12 w-full items-center justify-between"
           aria-label="Main navigation"
         >
           {/* Brand Logo */}
           <a
             href="#home"
+            onClick={() => setOpen(false)}
             className="flex items-center gap-2 transition-opacity hover:opacity-85 min-h-[44px] min-w-[44px] px-2 py-1 select-none"
             aria-label="BA builds - Beyzanur Home"
           >
@@ -143,29 +144,33 @@ export function Header() {
           </button>
         </nav>
 
-        {/* Mobile Dropdown Panel */}
+        {/* Fullscreen Mobile Drawer */}
         {open && (
-          <div className="md:hidden fixed top-16 inset-x-0 bottom-0 z-50 bg-black/95 backdrop-blur-2xl border-t border-white/10 flex flex-col justify-between p-6 animate-in fade-in slide-in-from-top-4 duration-200">
-            <div className="flex flex-col gap-2">
-              <span className="text-[11px] font-bold tracking-widest uppercase text-zinc-500 px-3 mb-1">
+          <div className="md:hidden fixed inset-0 z-40 flex h-dvh w-screen flex-col justify-between bg-zinc-950/95 backdrop-blur-2xl p-6 pt-20 transition-all duration-300 animate-in fade-in duration-200">
+            {/* Top Navigation Links */}
+            <div className="flex flex-col">
+              <span className="text-[10px] tracking-widest text-zinc-500 font-mono uppercase mb-4">
                 navigation
               </span>
-              {links.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center text-zinc-200 hover:text-white hover:bg-[#280970]/30 px-4 py-3 rounded-2xl text-lg font-medium transition-all min-h-[44px] lowercase"
-                >
-                  {link.label}
-                </a>
-              ))}
+              <div className="flex flex-col gap-5 text-2xl font-bold lowercase text-white">
+                {links.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="hover:text-purple-300 transition-colors min-h-[44px] flex items-center"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
             </div>
 
-            <div className="flex flex-col gap-4 pt-6 border-t border-white/10">
-              {/* Language Selector in Mobile Drawer */}
-              <div className="flex items-center justify-between px-2">
-                <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+            {/* Bottom Utility & Action Bar */}
+            <div className="border-t border-white/10 pt-6 mt-auto flex flex-col gap-4">
+              {/* Language Selector Row */}
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-400">
                   {t.language}
                 </span>
                 <div className="flex items-center bg-white/10 rounded-full p-1 border border-white/10 min-h-[44px]">
@@ -186,8 +191,8 @@ export function Header() {
                 </div>
               </div>
 
-              {/* Action Buttons in Mobile Drawer */}
-              <div className="grid grid-cols-2 gap-3 pt-2">
+              {/* Action Buttons Row */}
+              <div className="grid grid-cols-2 gap-3 pt-1">
                 <a
                   href="#contact"
                   onClick={() => setOpen(false)}

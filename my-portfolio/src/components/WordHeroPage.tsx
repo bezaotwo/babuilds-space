@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './WordHeroPage.css';
 
 export type Theme = 'system' | 'light' | 'dark';
@@ -8,24 +8,16 @@ export type WordHeroPageProps = {
   prefix?: string;
   /** Words that cycle under the sticky header */
   items?: string[];
-  /** UI theme (affects color-scheme + switch color) */
+  /** UI theme */
   theme?: Theme;
-  /** Enable view-timeline animations if supported */
-  animate?: boolean;
-  /** Accent hue (0–359) */
+  /** Accent hue */
   hue?: number;
-  /** Where the highlight band starts (vh) */
-  startVh?: number; // default 50
-  /** Space (vh) below the sticky header block */
-  spaceVh?: number; // default 20
-  /** Debug outline (for dev) */
-  debug?: boolean;
   /** Children placed on the rising curtain */
   children?: React.ReactNode;
 };
 
 export function WordHeroPage({
-  prefix = 'i specialize in ',
+  prefix = 'i specialize in',
   items = [
     'data.',
     'analysis.',
@@ -33,55 +25,123 @@ export function WordHeroPage({
     'ui/ux.',
     'marketing.',
   ],
-  theme = 'dark',
-  animate = true,
-  hue = 199,
-  startVh = 50,
-  spaceVh = 20,
-  debug = false,
   children,
 }: WordHeroPageProps) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+
   useEffect(() => {
-    const root = document.documentElement;
-    root.dataset.theme = theme;
-    root.dataset.animate = String(animate);
-    root.dataset.debug = String(debug);
-    root.style.setProperty('--hue', String(hue));
-    root.style.setProperty('--start', `${startVh}vh`);
-    root.style.setProperty('--space', `${spaceVh}vh`);
-    root.style.setProperty('--count', String(items.length));
-  }, [theme, animate, debug, hue, startVh, spaceVh, items.length]);
+    let ticking = false;
+
+    const updateScrollProgress = () => {
+      const el = trackRef.current;
+      if (!el) return;
+
+      const rect = el.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const totalScrollable = rect.height - viewportHeight;
+
+      if (totalScrollable <= 0) {
+        setProgress(0);
+        return;
+      }
+
+      const currentScroll = -rect.top;
+      const p = Math.max(0, Math.min(1, currentScroll / totalScrollable));
+      setProgress(p);
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateScrollProgress();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    updateScrollProgress();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
+
+  const totalWords = items.length;
+  const exactIndex = progress * (totalWords - 1);
 
   return (
-    <div
-      id="home"
-      className="min-h-screen w-full relative"
-      style={
-        {
-          ['--count' as string]: items.length,
-        } as React.CSSProperties
-      }
-    >
-      {/* Sticky Word Header */}
-      <header className="word-hero-header content fluid">
-        <section className="content">
-          <h1>
-            <span>{prefix.trimEnd()}</span>
-          </h1>
+    <div id="home" className="w-full relative bg-black">
+      {/* ── Fixed Screen Grid Background ── */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+              linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px)
+            `,
+            backgroundSize: '45px 45px',
+            backgroundPosition: '16px 14px',
+            maskImage: 'linear-gradient(-20deg, transparent 15%, white 80%)',
+            WebkitMaskImage: 'linear-gradient(-20deg, transparent 15%, white 80%)',
+          }}
+        />
+      </div>
 
-          {/* Visible cycling words */}
-          <ul className="word-hero-list" aria-hidden="true">
-            {items.map((word, i) => (
-              <li key={i} style={{ ['--i' as string]: i } as React.CSSProperties}>
-                {word}
-              </li>
-            ))}
-          </ul>
-        </section>
-      </header>
+      {/* ── Multi-viewport Sticky Scroll Track ── */}
+      <div ref={trackRef} className="relative h-[250vh] sm:h-[300vh] w-full">
+        {/* Sticky Viewport Container */}
+        <div className="sticky top-0 flex h-dvh sm:h-screen w-full items-center justify-center overflow-hidden z-10">
+          <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 px-6 max-w-4xl mx-auto w-full justify-center items-start sm:items-center">
+            {/* Static Prefix */}
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white shrink-0 lowercase leading-tight">
+              {prefix.trimEnd()}
+            </h1>
 
-      {/* Main Rising Curtain for all portfolio body content */}
-      <main id="content-curtain" className="word-hero-main content-curtain">
+            {/* Dynamic Words Column */}
+            <div className="relative h-[1.35em] overflow-hidden flex flex-col justify-start">
+              <div
+                className="flex flex-col will-change-transform"
+                style={{
+                  transform: `translateY(-${exactIndex * 1.35}em)`,
+                  transition: 'transform 0.05s linear',
+                }}
+              >
+                {items.map((word, i) => {
+                  const dist = Math.abs(exactIndex - i);
+                  const opacity = Math.max(0.2, 1 - dist * 0.85);
+                  const isActive = dist < 0.45;
+
+                  return (
+                    <div
+                      key={i}
+                      className={`h-[1.35em] flex items-center text-2xl sm:text-4xl md:text-5xl font-bold lowercase tracking-tight whitespace-nowrap transition-colors duration-200 ${
+                        isActive
+                          ? 'text-purple-300 drop-shadow-[0_0_20px_rgba(168,85,247,0.4)]'
+                          : 'text-zinc-600'
+                      }`}
+                      style={{ opacity }}
+                    >
+                      {word}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Main Rising White Curtain for all body sections ── */}
+      <main
+        id="content-curtain"
+        className="relative z-20 w-full bg-white text-zinc-950 rounded-t-[2.5rem] shadow-[0_-25px_50px_-12px_rgba(0,0,0,0.6)] border-t border-white/15"
+      >
         {children}
       </main>
     </div>
