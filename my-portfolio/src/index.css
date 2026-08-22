@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-main: #000000;
+    --bg-card: #ffffff;
+    --text-primary: #09090b;
+    --text-muted: #71717a;
+    --color-accent: #280970;
+    --accent: #7c3aed;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* About Section Grid Background */
+.about-grid-bg {
+  --size: 45px;
+  --line: rgba(255, 255, 255, 0.12); /* Subtle white grid */
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size))
+      calc(var(--size) * 0.36) 50% / var(--size) var(--size),
+    linear-gradient(var(--line) 1px, transparent 1px var(--size)) 0%
+      calc(var(--size) * 0.32) / var(--size) var(--size);
+  mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+  pointer-events: none;
+}
