@@ -99,16 +99,16 @@ export function WordHeroPage({
         <div className="sticky top-0 flex h-dvh sm:h-screen w-full items-center justify-center overflow-hidden z-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-baseline justify-center gap-1 sm:gap-3 px-6 w-full max-w-xl mx-auto">
             {/* Static Prefix */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white shrink-0 lowercase leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white shrink-0 lowercase leading-[1.3]">
               {prefix.trimEnd()}
             </h1>
 
             {/* Dynamic Words Column */}
-            <div className="relative h-[1.5em] overflow-hidden inline-flex flex-col justify-start text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+            <div className="relative h-[1.4em] overflow-hidden inline-flex flex-col justify-start text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.3] text-purple-400">
               <div
                 className="flex flex-col will-change-transform"
                 style={{
-                  transform: `translateY(-${exactIndex * 1.5}em)`,
+                  transform: `translateY(-${exactIndex * 1.4}em)`,
                   transition: 'transform 0.05s linear',
                 }}
               >
@@ -120,7 +120,7 @@ export function WordHeroPage({
                   return (
                     <div
                       key={i}
-                      className={`h-[1.5em] flex items-center lowercase tracking-tight whitespace-nowrap py-1 transition-colors duration-200 ${
+                      className={`h-[1.4em] flex items-center lowercase tracking-tight whitespace-nowrap transition-colors duration-200 ${
                         isActive
                           ? 'text-purple-400 drop-shadow-[0_0_25px_rgba(192,132,252,0.45)]'
                           : 'text-zinc-600'
