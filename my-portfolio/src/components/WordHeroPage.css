@@ -1,11 +1,12 @@
 @layer base, stick, demo, debug;
 
 :root {
-  --start: 50dvh;
-  --space: 20dvh;
-  --hue: 265;
-  --accent: #7c3aed;
+  --start: 50vh;
+  --space: 20vh;
+  --hue: 280;
+  --accent: hsl(var(--hue) 90% 75%);
   --color-accent: #280970;
+  --dimmed: color-mix(in oklch, canvasText, transparent 80%);
   --switch: canvas;
   --font-size-min: 14;
   --font-size-max: 20;
@@ -131,7 +132,7 @@ ul.word-hero-list {
 ul.word-hero-list li {
   font-size: inherit;
   line-height: inherit;
-  --dimmed: color-mix(in oklch, canvasText, #0000 80%);
+  --dimmed: color-mix(in oklch, canvasText, transparent 80%);
   background:
     linear-gradient(180deg,
       var(--dimmed) 0 calc(var(--start) - 0.5lh),
@@ -139,11 +140,10 @@ ul.word-hero-list li {
       var(--dimmed) calc(var(--start) + 0.5lh));
   background-attachment: fixed;
   color: transparent;
+  color: #0000;
   -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
   background-clip: text;
-  transform: translateZ(0);
-  will-change: transform;
+  -webkit-background-clip: text;
 }
 
 /* Main white curtain container */

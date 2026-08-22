@@ -35,7 +35,7 @@ export function WordHeroPage({
   ],
   theme = 'dark',
   animate = true,
-  hue = 199,
+  hue = 280,
   startVh = 50,
   spaceVh = 20,
   debug = false,
@@ -47,8 +47,8 @@ export function WordHeroPage({
     root.dataset.animate = String(animate);
     root.dataset.debug = String(debug);
     root.style.setProperty('--hue', String(hue));
-    root.style.setProperty('--start', `${startVh}dvh`);
-    root.style.setProperty('--space', `${spaceVh}dvh`);
+    root.style.setProperty('--start', `${startVh}vh`);
+    root.style.setProperty('--space', `${spaceVh}vh`);
     root.style.setProperty('--count', String(items.length));
   }, [theme, animate, debug, hue, startVh, spaceVh, items.length]);
 

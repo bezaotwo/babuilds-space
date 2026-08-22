@@ -8,6 +8,11 @@
     --text-muted: #71717a;
     --color-accent: #280970;
     --accent: #7c3aed;
+
+    /* Scroll Hero Animation Variables */
+    --start: 50vh;
+    --dimmed: rgba(255, 255, 255, 0.2);
+    --highlight: #462787;
   }
 
   html {
@@ -38,4 +43,17 @@
   mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
   -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
   pointer-events: none;
+}
+
+/* Scroll Hero Magic Effect */
+.scrolling-word {
+  background: linear-gradient(180deg,
+      var(--dimmed) 0 calc(var(--start) - 0.5lh),
+      var(--highlight) calc(var(--start) - 0.55lh) calc(var(--start) + 0.55lh),
+      var(--dimmed) calc(var(--start) + 0.5lh));
+  background-attachment: fixed;
+  color: transparent;
+  color: #0000;
+  background-clip: text;
+  -webkit-background-clip: text;
 }

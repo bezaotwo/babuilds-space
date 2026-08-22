@@ -41,10 +41,11 @@ export function ScrollHero({
 
       <style>{`
         .hero-viewport {
-          --start: 50dvh;
-          --space: 80dvh;
-          --accent: #0ea5e9;
-          --dimmed: rgba(255, 255, 255, 0.18);
+          --start: 50vh;
+          --space: 80vh;
+          --hue: 280;
+          --accent: hsl(var(--hue) 90% 75%);
+          --dimmed: color-mix(in oklch, canvasText, transparent 80%);
           --font-size-hero: clamp(2.5rem, 6vw, 4.75rem);
           --line-height-hero: 1.15;
           --half-line: 0.575em;
@@ -108,11 +109,10 @@ export function ScrollHero({
           );
           background-attachment: fixed;
           color: transparent;
+          color: #0000;
           -webkit-text-fill-color: transparent;
-          -webkit-background-clip: text;
           background-clip: text;
-          transform: translateZ(0);
-          will-change: transform;
+          -webkit-background-clip: text;
         }
         .content-curtain {
           width: 100%;
