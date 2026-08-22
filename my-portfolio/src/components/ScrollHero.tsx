@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface ScrollHeroProps {
   prefix?: string;
@@ -11,8 +11,56 @@ export function ScrollHero({
   items = ['data.', 'analysis.', 'web development.', 'ui/ux.', 'marketing.'],
   children,
 }: ScrollHeroProps) {
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
+  const listRef = useRef<HTMLUListElement>(null);
+
   useEffect(() => {
     document.documentElement.style.setProperty('--count', String(items.length));
+  }, [items.length]);
+
+  useEffect(() => {
+    let ticking = false;
+    const startVh = 50;
+
+    const updateActiveMobileWord = () => {
+      if (!listRef.current) return;
+      const listItems = listRef.current.querySelectorAll('li');
+      if (!listItems.length) return;
+
+      const targetY = window.innerHeight * (startVh / 100);
+      let minDistance = Infinity;
+      let closestIdx = 0;
+
+      listItems.forEach((li, index) => {
+        const rect = li.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const distance = Math.abs(center - targetY);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIdx = index;
+        }
+      });
+
+      setActiveMobileIndex(closestIdx);
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveMobileWord);
+        ticking = true;
+      }
+    };
+
+    updateActiveMobileWord();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, [items.length]);
 
   return (
@@ -24,12 +72,23 @@ export function ScrollHero({
       <header className="sticky-track">
         <section>
           <h1><span>{prefix}&nbsp;</span></h1>
-          <ul aria-hidden="true">
-            {items.map((word, i) => (
-              <li key={i} style={{ ['--i' as string]: i } as React.CSSProperties}>
-                {word}
-              </li>
-            ))}
+          <ul aria-hidden="true" ref={listRef}>
+            {items.map((word, i) => {
+              const isMobileActive = i === activeMobileIndex;
+              return (
+                <li
+                  key={i}
+                  className={`scrolling-word ${
+                    isMobileActive
+                      ? 'scrolling-word-mobile-active'
+                      : 'scrolling-word-mobile-inactive'
+                  }`}
+                  style={{ ['--i' as string]: i } as React.CSSProperties}
+                >
+                  {word}
+                </li>
+              );
+            })}
           </ul>
         </section>
       </header>
@@ -100,19 +159,41 @@ export function ScrollHero({
           white-space: nowrap;
         }
         .sticky-track ul { list-style: none; }
-        .sticky-track li {
-          background: linear-gradient(
-            180deg,
-            var(--dimmed) 0 calc(var(--start) - var(--half-line)),
-            var(--accent) calc(var(--start) - var(--half-line)) calc(var(--start) + var(--half-line)),
-            var(--dimmed) calc(var(--start) + var(--half-line))
-          );
-          background-attachment: fixed;
-          color: transparent;
-          color: #0000;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          -webkit-background-clip: text;
+        @media (min-width: 640px) {
+          .sticky-track li {
+            background: linear-gradient(
+              180deg,
+              var(--dimmed) 0 calc(var(--start) - var(--half-line)),
+              var(--accent) calc(var(--start) - var(--half-line)) calc(var(--start) + var(--half-line)),
+              var(--dimmed) calc(var(--start) + var(--half-line))
+            );
+            background-attachment: fixed;
+            color: transparent;
+            color: #0000;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+          }
+        }
+        @media (max-width: 639px) {
+          .sticky-track li {
+            background: none !important;
+            background-image: none !important;
+          }
+          .sticky-track li.scrolling-word-mobile-active {
+            color: var(--highlight, #462787) !important;
+            -webkit-text-fill-color: var(--highlight, #462787) !important;
+            background: none !important;
+            background-image: none !important;
+            transition: color 0.25s ease;
+          }
+          .sticky-track li.scrolling-word-mobile-inactive {
+            color: var(--dimmed, rgba(255, 255, 255, 0.2)) !important;
+            -webkit-text-fill-color: var(--dimmed, rgba(255, 255, 255, 0.2)) !important;
+            background: none !important;
+            background-image: none !important;
+            transition: color 0.25s ease;
+          }
         }
         .content-curtain {
           width: 100%;

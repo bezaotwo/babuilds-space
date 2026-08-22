@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './WordHeroPage.css';
 
 export type Theme = 'system' | 'light' | 'dark';
@@ -41,6 +41,9 @@ export function WordHeroPage({
   debug = false,
   children,
 }: WordHeroPageProps) {
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
+  const listRef = useRef<HTMLUListElement>(null);
+
   useEffect(() => {
     const root = document.documentElement;
     root.dataset.theme = theme;
@@ -51,6 +54,50 @@ export function WordHeroPage({
     root.style.setProperty('--space', `${spaceVh}vh`);
     root.style.setProperty('--count', String(items.length));
   }, [theme, animate, debug, hue, startVh, spaceVh, items.length]);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const updateActiveMobileWord = () => {
+      if (!listRef.current) return;
+      const listItems = listRef.current.querySelectorAll('li');
+      if (!listItems.length) return;
+
+      const targetY = window.innerHeight * (startVh / 100);
+      let minDistance = Infinity;
+      let closestIdx = 0;
+
+      listItems.forEach((li, index) => {
+        const rect = li.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const distance = Math.abs(center - targetY);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIdx = index;
+        }
+      });
+
+      setActiveMobileIndex(closestIdx);
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveMobileWord);
+        ticking = true;
+      }
+    };
+
+    updateActiveMobileWord();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [startVh, items.length]);
 
   return (
     <div
@@ -70,12 +117,23 @@ export function WordHeroPage({
           </h1>
 
           {/* Visible cycling words */}
-          <ul className="word-hero-list" aria-hidden="true">
-            {items.map((word, i) => (
-              <li key={i} style={{ ['--i' as string]: i } as React.CSSProperties}>
-                {word}
-              </li>
-            ))}
+          <ul className="word-hero-list" aria-hidden="true" ref={listRef}>
+            {items.map((word, i) => {
+              const isMobileActive = i === activeMobileIndex;
+              return (
+                <li
+                  key={i}
+                  className={`scrolling-word ${
+                    isMobileActive
+                      ? 'scrolling-word-mobile-active'
+                      : 'scrolling-word-mobile-inactive'
+                  }`}
+                  style={{ ['--i' as string]: i } as React.CSSProperties}
+                >
+                  {word}
+                </li>
+              );
+            })}
           </ul>
         </section>
       </header>

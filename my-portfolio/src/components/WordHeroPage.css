@@ -129,21 +129,46 @@ ul.word-hero-list {
   text-transform: lowercase;
 }
 
-ul.word-hero-list li {
-  font-size: inherit;
-  line-height: inherit;
-  --dimmed: color-mix(in oklch, canvasText, transparent 80%);
-  background:
-    linear-gradient(180deg,
-      var(--dimmed) 0 calc(var(--start) - 0.5lh),
-      var(--accent) calc(var(--start) - 0.55lh) calc(var(--start) + 0.55lh),
-      var(--dimmed) calc(var(--start) + 0.5lh));
-  background-attachment: fixed;
-  color: transparent;
-  color: #0000;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+@media (min-width: 640px) {
+  ul.word-hero-list li {
+    font-size: inherit;
+    line-height: inherit;
+    --dimmed: color-mix(in oklch, canvasText, transparent 80%);
+    background:
+      linear-gradient(180deg,
+        var(--dimmed) 0 calc(var(--start) - 0.5lh),
+        var(--accent) calc(var(--start) - 0.55lh) calc(var(--start) + 0.55lh),
+        var(--dimmed) calc(var(--start) + 0.5lh));
+    background-attachment: fixed;
+    color: transparent;
+    color: #0000;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+}
+
+@media (max-width: 639px) {
+  ul.word-hero-list li {
+    font-size: inherit;
+    line-height: inherit;
+    background: none !important;
+    background-image: none !important;
+  }
+  ul.word-hero-list li.scrolling-word-mobile-active {
+    color: var(--highlight, var(--accent, #462787)) !important;
+    -webkit-text-fill-color: var(--highlight, var(--accent, #462787)) !important;
+    background: none !important;
+    background-image: none !important;
+    transition: color 0.25s ease;
+  }
+  ul.word-hero-list li.scrolling-word-mobile-inactive {
+    color: var(--dimmed, rgba(255, 255, 255, 0.2)) !important;
+    -webkit-text-fill-color: var(--dimmed, rgba(255, 255, 255, 0.2)) !important;
+    background: none !important;
+    background-image: none !important;
+    transition: color 0.25s ease;
+  }
 }
 
 /* Main white curtain container */
