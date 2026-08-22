@@ -101,20 +101,20 @@ export function Header() {
             ))}
           </div>
 
-          {/* Right Action Cluster */}
+          {/* Desktop Right Action Cluster */}
           <div className="hidden md:flex items-center gap-2">
-            {/* Language Toggle */}
-            <div className="flex items-center bg-white/10 rounded-full p-1 border border-white/10 min-h-[44px]">
+            {/* Desktop Language Toggle */}
+            <div className="inline-flex items-center rounded-full bg-zinc-900/80 p-0.5 border border-white/10 text-xs min-h-[44px]">
               {(['en', 'tr'] as const).map((l) => (
                 <button
                   key={l}
                   id={`header-lang-${l}`}
                   type="button"
                   onClick={() => handleLangSelect(l)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 min-h-[38px] min-w-[38px] flex items-center justify-center cursor-pointer ${
                     lang === l
-                      ? 'bg-[#280970] text-white shadow-sm border border-purple-500/30'
-                      : 'text-zinc-400 hover:text-zinc-200'
+                      ? 'bg-purple-600 text-white shadow-sm'
+                      : 'text-zinc-400 hover:text-white'
                   }`}
                 >
                   {l}
@@ -132,16 +132,38 @@ export function Header() {
             </a>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <button
-            type="button"
-            onClick={() => setOpen(!open)}
-            aria-label="Toggle navigation menu"
-            aria-expanded={open}
-            className="md:hidden flex items-center justify-center p-2 rounded-xl text-zinc-300 hover:text-white hover:bg-white/10 transition-colors min-h-[44px] min-w-[44px]"
-          >
-            {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Right Controls: Language Toggle + Hamburger Button */}
+          <div className="flex md:hidden items-center gap-2">
+            {/* Mobile Language Toggle */}
+            <div className="inline-flex items-center rounded-full bg-zinc-900/80 p-0.5 border border-white/10 text-xs">
+              {(['en', 'tr'] as const).map((l) => (
+                <button
+                  key={l}
+                  id={`header-lang-mobile-${l}`}
+                  type="button"
+                  onClick={() => handleLangSelect(l)}
+                  className={`px-2.5 py-1 rounded-full text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer ${
+                    lang === l
+                      ? 'bg-purple-600 text-white shadow-sm'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+
+            {/* Mobile Menu Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setOpen(!open)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={open}
+              className="flex items-center justify-center p-2 rounded-xl text-zinc-300 hover:text-white hover:bg-white/10 transition-colors min-h-[44px] min-w-[44px]"
+            >
+              {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </nav>
 
         {/* Fullscreen Mobile Drawer */}
@@ -168,31 +190,8 @@ export function Header() {
 
             {/* Bottom Utility & Action Bar */}
             <div className="border-t border-white/10 pt-6 mt-auto flex flex-col gap-4">
-              {/* Language Selector Row */}
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-400">
-                  {t.language}
-                </span>
-                <div className="flex items-center bg-white/10 rounded-full p-1 border border-white/10 min-h-[44px]">
-                  {(['en', 'tr'] as const).map((l) => (
-                    <button
-                      key={l}
-                      type="button"
-                      onClick={() => handleLangSelect(l)}
-                      className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all min-h-[44px] min-w-[44px] cursor-pointer flex items-center justify-center ${
-                        lang === l
-                          ? 'bg-[#280970] text-white shadow-md'
-                          : 'text-zinc-400 hover:text-white'
-                      }`}
-                    >
-                      {l}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* Action Buttons Row */}
-              <div className="grid grid-cols-2 gap-3 pt-1">
+              <div className="grid grid-cols-2 gap-3">
                 <a
                   href="#contact"
                   onClick={() => setOpen(false)}
