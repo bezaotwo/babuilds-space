@@ -12,7 +12,8 @@
     /* Scroll Hero Animation Variables */
     --start: 50vh;
     --dimmed: rgba(255, 255, 255, 0.2);
-    --highlight: #462787;
+    --highlight: #563865;
+    --highlight-bright: #c084fc;
   }
 
   html {
@@ -69,17 +70,20 @@
     background-image: none !important;
   }
   .scrolling-word-mobile-active {
-    color: var(--highlight) !important;
-    -webkit-text-fill-color: var(--highlight) !important;
+    color: var(--highlight-bright) !important;
+    -webkit-text-fill-color: var(--highlight-bright) !important;
+    text-shadow: 0 0 20px rgba(192, 132, 252, 0.35);
+    font-weight: 700;
     background: none !important;
     background-image: none !important;
-    transition: color 0.25s ease;
+    transition: color 0.2s ease, text-shadow 0.2s ease, -webkit-text-fill-color 0.2s ease;
   }
   .scrolling-word-mobile-inactive {
-    color: var(--dimmed) !important;
-    -webkit-text-fill-color: var(--dimmed) !important;
+    color: rgba(255, 255, 255, 0.2) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.2) !important;
+    text-shadow: none;
     background: none !important;
     background-image: none !important;
-    transition: color 0.25s ease;
+    transition: color 0.2s ease, text-shadow 0.2s ease, -webkit-text-fill-color 0.2s ease;
   }
 }

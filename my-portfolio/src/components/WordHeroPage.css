@@ -7,6 +7,7 @@
   --accent: hsl(var(--hue) 90% 75%);
   --color-accent: #280970;
   --dimmed: color-mix(in oklch, canvasText, transparent 80%);
+  --highlight-bright: #c084fc;
   --switch: canvas;
   --font-size-min: 14;
   --font-size-max: 20;
@@ -156,18 +157,21 @@ ul.word-hero-list {
     background-image: none !important;
   }
   ul.word-hero-list li.scrolling-word-mobile-active {
-    color: var(--highlight, var(--accent, #462787)) !important;
-    -webkit-text-fill-color: var(--highlight, var(--accent, #462787)) !important;
+    color: var(--highlight-bright, #c084fc) !important;
+    -webkit-text-fill-color: var(--highlight-bright, #c084fc) !important;
+    text-shadow: 0 0 20px rgba(192, 132, 252, 0.35);
+    font-weight: 700;
     background: none !important;
     background-image: none !important;
-    transition: color 0.25s ease;
+    transition: color 0.2s ease, text-shadow 0.2s ease, -webkit-text-fill-color 0.2s ease;
   }
   ul.word-hero-list li.scrolling-word-mobile-inactive {
-    color: var(--dimmed, rgba(255, 255, 255, 0.2)) !important;
-    -webkit-text-fill-color: var(--dimmed, rgba(255, 255, 255, 0.2)) !important;
+    color: rgba(255, 255, 255, 0.2) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.2) !important;
+    text-shadow: none;
     background: none !important;
     background-image: none !important;
-    transition: color 0.25s ease;
+    transition: color 0.2s ease, text-shadow 0.2s ease, -webkit-text-fill-color 0.2s ease;
   }
 }
 

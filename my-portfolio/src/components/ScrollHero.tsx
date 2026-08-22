@@ -105,6 +105,8 @@ export function ScrollHero({
           --hue: 280;
           --accent: hsl(var(--hue) 90% 75%);
           --dimmed: color-mix(in oklch, canvasText, transparent 80%);
+          --highlight: #563865;
+          --highlight-bright: #c084fc;
           --font-size-hero: clamp(2.5rem, 6vw, 4.75rem);
           --line-height-hero: 1.15;
           --half-line: 0.575em;
@@ -181,18 +183,21 @@ export function ScrollHero({
             background-image: none !important;
           }
           .sticky-track li.scrolling-word-mobile-active {
-            color: var(--highlight, #462787) !important;
-            -webkit-text-fill-color: var(--highlight, #462787) !important;
+            color: var(--highlight-bright, #c084fc) !important;
+            -webkit-text-fill-color: var(--highlight-bright, #c084fc) !important;
+            text-shadow: 0 0 20px rgba(192, 132, 252, 0.35);
+            font-weight: 700;
             background: none !important;
             background-image: none !important;
-            transition: color 0.25s ease;
+            transition: color 0.2s ease, text-shadow 0.2s ease, -webkit-text-fill-color 0.2s ease;
           }
           .sticky-track li.scrolling-word-mobile-inactive {
-            color: var(--dimmed, rgba(255, 255, 255, 0.2)) !important;
-            -webkit-text-fill-color: var(--dimmed, rgba(255, 255, 255, 0.2)) !important;
+            color: rgba(255, 255, 255, 0.2) !important;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.2) !important;
+            text-shadow: none;
             background: none !important;
             background-image: none !important;
-            transition: color 0.25s ease;
+            transition: color 0.2s ease, text-shadow 0.2s ease, -webkit-text-fill-color 0.2s ease;
           }
         }
         .content-curtain {
