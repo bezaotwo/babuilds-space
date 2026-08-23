@@ -4,10 +4,10 @@
   --start: 50vh;
   --space: 20vh;
   --hue: 280;
-  --accent: hsl(var(--hue) 90% 75%);
+  --accent: #8b62e3;
   --color-accent: #280970;
   --dimmed: color-mix(in oklch, canvasText, transparent 80%);
-  --highlight-bright: #c084fc;
+  --highlight-bright: #8b62e3;
   --switch: canvas;
   --font-size-min: 14;
   --font-size-max: 20;
@@ -156,6 +156,7 @@ ul.word-hero-list {
     background: none !important;
     background-image: none !important;
   }
+
   ul.word-hero-list li.scrolling-word-mobile-active {
     color: var(--highlight-bright, #c084fc) !important;
     -webkit-text-fill-color: var(--highlight-bright, #c084fc) !important;
@@ -165,6 +166,7 @@ ul.word-hero-list {
     background-image: none !important;
     transition: color 0.2s ease, text-shadow 0.2s ease, -webkit-text-fill-color 0.2s ease;
   }
+
   ul.word-hero-list li.scrolling-word-mobile-inactive {
     color: rgba(255, 255, 255, 0.2) !important;
     -webkit-text-fill-color: rgba(255, 255, 255, 0.2) !important;

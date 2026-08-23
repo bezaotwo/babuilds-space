@@ -78,11 +78,10 @@ export function ScrollHero({
               return (
                 <li
                   key={i}
-                  className={`scrolling-word ${
-                    isMobileActive
-                      ? 'scrolling-word-mobile-active'
-                      : 'scrolling-word-mobile-inactive'
-                  }`}
+                  className={`scrolling-word ${isMobileActive
+                    ? 'scrolling-word-mobile-active'
+                    : 'scrolling-word-mobile-inactive'
+                    }`}
                   style={{ ['--i' as string]: i } as React.CSSProperties}
                 >
                   {word}
@@ -103,10 +102,10 @@ export function ScrollHero({
           --start: 50vh;
           --space: 80vh;
           --hue: 280;
-          --accent: hsl(var(--hue) 90% 75%);
+          --accent: #8b62e3;
           --dimmed: color-mix(in oklch, canvasText, transparent 80%);
-          --highlight: #563865;
-          --highlight-bright: #c084fc;
+          --highlight: #8b62e3;
+          --highlight-bright: #8b62e3;
           --font-size-hero: clamp(2.5rem, 6vw, 4.75rem);
           --line-height-hero: 1.15;
           --half-line: 0.575em;

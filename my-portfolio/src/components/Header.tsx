@@ -111,9 +111,9 @@ export function Header() {
                   id={`header-lang-${l}`}
                   type="button"
                   onClick={() => handleLangSelect(l)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 min-h-[38px] min-w-[38px] flex items-center justify-center cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium uppercase tracking-wider transition-all duration-200 min-h-[38px] min-w-[38px] flex items-center justify-center cursor-pointer ${
                     lang === l
-                      ? 'bg-purple-600 text-white shadow-sm'
+                      ? 'bg-[#280971] text-white shadow-sm'
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
@@ -125,7 +125,7 @@ export function Header() {
             {/* CTA Button */}
             <a
               href="#contact"
-              className="inline-flex items-center gap-1.5 bg-[#280970] hover:bg-[#3b1299] text-white text-xs font-semibold px-4 py-2 rounded-full border border-purple-400/20 transition-all duration-200 shadow-md min-h-[44px] min-w-[44px]"
+              className="inline-flex items-center gap-1.5 bg-[#280971] hover:bg-[#3b1299] text-white text-xs font-semibold px-4 py-2 rounded-full border border-purple-400/20 transition-all duration-200 shadow-md min-h-[44px] min-w-[44px]"
             >
               <Mail className="w-3.5 h-3.5 text-purple-300" />
               <span>{t.contact}</span>
@@ -144,7 +144,7 @@ export function Header() {
                   onClick={() => handleLangSelect(l)}
                   className={`px-2.5 py-1 rounded-full text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer ${
                     lang === l
-                      ? 'bg-purple-600 text-white shadow-sm'
+                      ? 'bg-[#280971] text-white shadow-sm'
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
@@ -195,7 +195,7 @@ export function Header() {
                 <a
                   href="#contact"
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-center gap-2 bg-[#280970] hover:bg-[#3b1299] text-white text-sm font-semibold py-3 px-4 rounded-2xl transition-all shadow-md min-h-[44px]"
+                  className="flex items-center justify-center gap-2 bg-[#280971] hover:bg-[#3b1299] text-white text-sm font-semibold py-3 px-4 rounded-2xl transition-all shadow-md min-h-[44px]"
                 >
                   <Mail className="w-4 h-4 text-purple-300" />
                   <span>{t.contact}</span>
